@@ -4,7 +4,7 @@
  * 统一管理所有后端API请求
  */
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:10000'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://smart-compliance-backend.onrender.com'
 
 /**
  * 通用请求函数
