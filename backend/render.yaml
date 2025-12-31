@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: smart-compliance-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: bash start.sh
+    envVars:
+      - key: DATABASE_PATH
+        value: /opt/render/project/src/data/compliance.db
+      - key: ALLOWED_ORIGINS
+        value: https://wenwenba2020.github.io,http://localhost:3000
+      - key: PYTHON_VERSION
+        value: 3.11.0
