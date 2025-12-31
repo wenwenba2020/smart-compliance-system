@@ -1,0 +1,13 @@
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "chmod +x start.sh && ./start.sh"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[env]
+# Railway会自动设置PORT环境变量
+# 可以在Railway Dashboard中添加以下环境变量：
+# DATABASE_PATH=/data/compliance.db
+# ALLOWED_ORIGINS=https://wenwenba2020.github.io,http://localhost:3000

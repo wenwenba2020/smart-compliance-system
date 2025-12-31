@@ -73,9 +73,14 @@ app = FastAPI(
 )
 
 # 配置CORS（跨域资源共享）
+# CORS配置 - 允许前端跨域访问
+# 开发环境允许所有来源，生产环境限制具体域名
+ALLOWED_ORIGINS = os.getenv('ALLOWED_ORIGINS', '*')
+origins = ALLOWED_ORIGINS.split(',') if ALLOWED_ORIGINS != '*' else ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 生产环境应该限制具体域名
+    allow_origins=origins if origins != ["*"] else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

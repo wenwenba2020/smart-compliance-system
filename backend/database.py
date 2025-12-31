@@ -12,9 +12,17 @@
 from sqlalchemy import create_engine, Column, Integer, String, Text, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
+import os
 
 # 数据库文件路径
-DATABASE_URL = "sqlite:///./data/compliance.db"
+# 生产环境使用环境变量指定的路径，开发环境使用本地路径
+db_path = os.getenv('DATABASE_PATH', './data/compliance.db')
+DATABASE_URL = f"sqlite:///{db_path}"
+
+# 创建数据目录（如果不存在）
+db_dir = os.path.dirname(db_path) if '/' in db_path else './data'
+if db_dir and db_dir != '/data':  # /data通常是Railway的volume mount point
+    os.makedirs(db_dir, exist_ok=True)
 
 # 创建数据库引擎
 engine = create_engine(
