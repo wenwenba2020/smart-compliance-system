@@ -4,6 +4,9 @@
  * 统一管理所有后端API请求
  */
 
+// 后端 API 地址
+// 生产环境使用 Render 部署的后端
+// 本地开发可以通过环境变量 NEXT_PUBLIC_API_URL 覆盖
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://smart-compliance-backend.onrender.com'
 
 /**

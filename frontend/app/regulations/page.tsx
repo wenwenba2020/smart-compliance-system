@@ -77,7 +77,9 @@ export default function RegulationsPage() {
             const formData = new FormData()
             formData.append('file', selectedFile)
             
-            const response = await fetch('http://localhost:10000/api/regulations/upload', {
+            // 使用环境变量或默认的后端地址
+            const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://smart-compliance-backend.onrender.com'
+            const response = await fetch(`${API_BASE_URL}/api/regulations/upload`, {
                 method: 'POST',
                 body: formData
             })
