@@ -77,6 +77,7 @@ app = FastAPI(
 # 支持多个前端部署域名
 
 # 默认允许的域名列表（包括 GitHub Pages 和 Vercel）
+# 注意：GitHub Pages 的 Origin 头不包含路径，只包含域名
 default_origins = [
     "https://wenwenba2020.github.io",
     "https://frontend-wenwenba2020.vercel.app",
@@ -102,6 +103,10 @@ else:
     # 默认使用预定义的域名列表
     origins = default_origins
     allow_credentials = True
+
+# 打印 CORS 配置（仅用于调试，生产环境可以移除）
+print(f"[CORS Config] Allowed origins: {origins}")
+print(f"[CORS Config] Allow credentials: {allow_credentials}")
 
 app.add_middleware(
     CORSMiddleware,
