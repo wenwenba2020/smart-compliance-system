@@ -74,16 +74,43 @@ app = FastAPI(
 
 # 配置CORS（跨域资源共享）
 # CORS配置 - 允许前端跨域访问
-# 开发环境允许所有来源，生产环境限制具体域名
-ALLOWED_ORIGINS = os.getenv('ALLOWED_ORIGINS', '*')
-origins = ALLOWED_ORIGINS.split(',') if ALLOWED_ORIGINS != '*' else ["*"]
+# 支持多个前端部署域名
+
+# 默认允许的域名列表（包括 GitHub Pages 和 Vercel）
+default_origins = [
+    "https://wenwenba2020.github.io",
+    "https://frontend-wenwenba2020.vercel.app",
+    "http://localhost:3000",
+    "http://localhost:10000",
+]
+
+ALLOWED_ORIGINS = os.getenv('ALLOWED_ORIGINS', '')
+
+if ALLOWED_ORIGINS == '*':
+    # 使用通配符时，允许所有来源（但不允许凭据）
+    origins = ["*"]
+    allow_credentials = False
+elif ALLOWED_ORIGINS:
+    # 从环境变量读取，支持多个来源，以逗号分隔
+    origins = [o.strip() for o in ALLOWED_ORIGINS.split(',') if o.strip()]
+    # 合并默认域名，避免重复
+    for origin in default_origins:
+        if origin not in origins:
+            origins.append(origin)
+    allow_credentials = True
+else:
+    # 默认使用预定义的域名列表
+    origins = default_origins
+    allow_credentials = True
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins if origins != ["*"] else ["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_origins=origins,
+    allow_credentials=allow_credentials,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
+    expose_headers=["*"],
+    max_age=3600,  # 预检请求缓存时间（秒）
 )
 
 
